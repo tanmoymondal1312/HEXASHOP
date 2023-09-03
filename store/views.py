@@ -6,6 +6,7 @@ from category.models import Category
 from django.core.paginator import Paginator
 from .forms import MyForm,ReviewModelForm
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -31,24 +32,38 @@ def store(request, category_slug=None):
 
 
 
-
+@csrf_exempt
 def FilterItems(request):
     products = Product.objects.filter(is_available=True)  # Initialize with an empty queryset
     context = {}
     product_count = 0
     
     if request.method == 'POST':
-        print('hello111')
+        
         form = MyForm(request.POST)
         if form.is_valid():
             print('hello')
             field1_value = form.cleaned_data['field1']
             field2_value = form.cleaned_data['field2']
+            field3_value = form.cleaned_data['field3']
+            field4_value = form.cleaned_data['field4']
+            
             print(field1_value)
+            print(field2_value)
+            print(field3_value)
             
+            if field1_value !=None and field2_value !=None and field3_value != 'None' and field4_value != 'None':
+                products = Product.objects.filter(is_available=True, price__range=(field1_value, field2_value),sizes=field3_value,color=field4_value)
+                product_count = products.count()
+                
+            elif field1_value !=None and field2_value !=None and field3_value != 'None':
+                products = Product.objects.filter(is_available=True, price__range=(field1_value, field2_value),sizes=field3_value)
+                product_count = products.count()
+                
+            elif field1_value !=None and field2_value !=None:
+                products = Product.objects.filter(is_available=True, price__range=(field1_value, field2_value))
+                product_count = products.count()
             
-            products = Product.objects.filter(is_available=True, price__range=(field1_value, field2_value))
-            product_count = products.count()
         else:
             # Handle form validation errors here if needed
             pass

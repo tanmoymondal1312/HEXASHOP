@@ -41,8 +41,7 @@
           </article>
           <div>
             <form method="post" action="{% url 'filter_items' %}">
-              {% csrf_token %}
-          
+              {% csrf_token %}          
               <div class="d-flex align-items-center">
                   <label class="text-nowrap mx-2" for="id_field1">Min Price:</label>
                   <input style="width:100px; margin:5px;" type="number" id="id_field1" name="field1" required>
@@ -51,21 +50,34 @@
               <div class="d-flex align-items-center">
                   <label class="text-nowrap mx-2" for="id_field2">Max Price:</label>
                   <input style="width:100px;" type="number" id="id_field2" name="field2" required>
-              </div>
-          
+              </div>          
               <div class="d-flex align-items-center">
-                  <label class="text-nowrap mx-2" for="id_size">Select Size:</label>
-                  <select id="id_size" name="size">
-                      <option value="">All Sizes</option>
-                      <option value="S">Small</option>
+                  <label class="text-nowrap mx-2" for="id_field3">Select Size:</label>
+                  <select id="id_field3" name="field3"> <!-- Change 'name' attribute to 'field3' -->
+                    <option value="None">All</option> 
+                      <option value="S">Small</option> 
                       <option value="M">Medium</option>
                       <option value="L">Large</option>
                       <option value="XL">Extra Large</option>
+                      <option value="XXL">2 x Extra Large</option>
+                      <option value="XXXL">3 x Extra Large</option>
                   </select>
               </div>
-          
+              <div class="d-flex align-items-center">
+                <label class="text-nowrap mx-2" for="id_field4">Select Color:</label>
+                <select id="id_field4" name="field4"> <!-- Change 'name' attribute to 'field3' -->
+                  <option value="None">All</option> 
+                    <option value="Red">Red</option> 
+                    <option value="White">Red</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Black">Black</option>
+                </select>
+            </div>      
               <button type="submit">Submit</button>
           </form>
+          
           
           </div>
         </div>
@@ -81,7 +93,8 @@
         <!-- sect-heading -->
 
         <div style=" " class="row mx-auto justify-content-center">
-          {% if products %} {% for product in products %}
+          {% if products %} 
+          {% for product in products %}
             <div style="max-width:300px; " class="col-lg-4  m-2">
               <figure class="card card-product-grid">
                 <div class="img-wrap">
@@ -101,7 +114,8 @@
               </figure>
             </div>
           <!-- col.// -->
-          {% endfor %} {% else %}
+          {% endfor %} 
+          {% else %}
           <div>
             <h2>No result found. Please try again.</h2>
           </div>

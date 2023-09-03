@@ -6,6 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-9">
+                    {% if cart_items %}
                     <div class="card">
                         <table class="table">
                             <thead>
@@ -19,50 +20,56 @@
                             <tbody>
                                 {% for item in cart_items %}
                                 <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{item.product.image.url}}" class="img-thumbnail" width="100" alt="{{ item.product.product_name }}" />
-                                            <div class="ml-2">
-                                                <a href="#" class="text-dark">{{ item.product.product_name }}</a>
-                                                <p class="text-muted small">Category: {{ item.product.category.category_name }}</p>
-                                            </div>
+                                  <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{item.product.image.url}}" class="img-thumbnail" width="100" alt="{{ item.product.product_name }}" />
+                                        <div class="ml-2">
+                                            <a href="#" class="text-dark">{{ item.product.product_name }}</a>
+                                            <p class="text-muted small">Category: {{ item.product.category.category_name }}</p>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group input-spinner">
-                                            <div class="input-group-prepend">
-                                                <form action="{% url 'remove_cart_item' item.product.id item.id %}">
-                                                    {% csrf_token %}
-                                                    <button class="btn btn-light" type="submit">
-                                                        <i class="fa fa-minus"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                            <input type="text" class="form-control" value="{{ item.quantity }}" />
-                                            <div class="input-group-append">
-                                                <form action="{% url 'add_cart' item.product.id %}" method="POST">
-                                                    {% csrf_token %}
-                                                    <button class="btn btn-light" type="submit">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group input-spinner">
+                                        <div class="input-group-prepend">
+                                            <form action="{% url 'remove_cart_item' item.product.id item.id %}">
+                                                {% csrf_token %}
+                                                <button class="btn btn-light" type="submit">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </form>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="price-wrap">
-                                            <span class="price">${{ item.sub_total }}</span>
-                                            <small class="text-muted"> ${{ item.product.price }} each </small>
+                                        <input type="text" class="form-control" value="{{ item.quantity }}" />
+                                        <div class="input-group-append">
+                                            <form action="{% url 'add_cart' item.product.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button class="btn btn-light" type="submit">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </form>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'remove_cart' item.product.id item.id %}" class="btn btn-danger btn-sm">Remove</a>
-                                    </td>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="price-wrap">
+                                        <span class="price">${{ item.sub_total }}</span>
+                                        <small class="text-muted"> ${{ item.product.price }} each </small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{% url 'remove_cart' item.product.id item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                                </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        You have not added any items to your cart.
+                    </div>
+                    <a href="{% url 'store' %}" class="btn btn-info btn-block">Continue Shopping</a>
+                    {% endif %}
                 </div>
                 <div class="col-lg-3">
                     <div class="card">
@@ -85,8 +92,10 @@
                             <p class="text-center mb-3">
                                 <img src="#" height="26" alt="Payment Method" />
                             </p>
+                            {% if cart_items %}
                             <a href="#" class="btn btn-primary btn-block">Checkout</a>
-                            <a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
+                            <a href="{% url 'store' %}" class="btn btn-info btn-block">Continue Shopping</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

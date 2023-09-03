@@ -1,10 +1,29 @@
 from django.db import models
 from category.models import Category
 from django.contrib.auth.models import User
+from django.db.models import Avg
 
 
 class Product(models.Model):
+    SIZE_CHOICES = (
+        ('S', 'S'),
+        ('M', 'M'),
+        ('L', 'L'),
+        ('XL', 'XL'),
+        ('XXL', 'XXL'),
+        ('XXXL', 'XXXL'),
+        
+    )
     
+    COLOR_CHOICES =(
+       ('Red', 'Red'),
+       ('White','White'),
+       ('Blue', 'Blue'),
+       ('Green', 'Green'),
+       ('Yellow', 'Yellow'),
+       ('Black', 'Black'),
+    )
+
     product_name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
     description = models.TextField(max_length=500, blank=True)
@@ -13,11 +32,10 @@ class Product(models.Model):
     stock = models.IntegerField()
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    sizes = models.CharField(max_length=5, choices=SIZE_CHOICES, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.product_name
+    color = models.CharField(max_length=20, choices= COLOR_CHOICES, blank=True)
 
 class Reviews(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  

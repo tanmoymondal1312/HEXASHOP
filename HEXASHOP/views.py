@@ -1,10 +1,14 @@
 from django.shortcuts import render
-from store.models import Product, Category
-#from cart.models import CartItem
+from store.models import Product, Category,Reviews
+from django.core.paginator import Paginator
 
 def home(request):
+    
     products = Product.objects.filter(is_available=True)
     categories = Category.objects.all()
-    #cart_items_count = CartItem.objects.filter(user=request.user).count()
-    #print("cart_items_count: ", cart_items_count)
-    return render(request, 'popular_products.html', {'products': products, 'categories': categories})
+    page = request.GET.get("page")
+    paginator = Paginator(products, 6)
+    product_page = paginator.get_page(page)
+    categories = Category.objects.all()
+    context = {"products": product_page, "categories": categories}
+    return render(request, 'popular_products.html', context)

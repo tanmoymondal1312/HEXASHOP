@@ -14,7 +14,8 @@
               <div class="card-body">
                   <h5 class="card-title"> {{product.product_name}}</h5>
                   <p class="card-text">{{product.description}}</p>
-                  <p class="card-text">{{product.price}}</p>
+                  <p style="font-size:20px;" class="fs-1">Price: ${{product.price}}</p>
+                  <p style="font-size:17px;" class="fs-1">Size: {{product.sizes}}</p>
                   <a style="background-color: #4ac710;"  href="{% url 'add_cart' product_id=product.id %}" class="btn btn-primary">Add to Cart</a>
                   <a style="background-color: #22806d;"  href="{% url 'product_detail' product_id=product.id %}" class="btn text-light ">Product Details</a>
               </div>
