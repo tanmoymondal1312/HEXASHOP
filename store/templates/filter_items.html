@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<section style="margin-top:120px;">
+  <div style="" class="container">
+    <h5 > {{product_count}} items found</h5>
+    <div class="row">
+      {% if products %} {% for product in products %}
+        <div class="col-lg-4 ">
+          <div class="card">
+              <img src="{{ product.image.url }}" class="card-img-top" alt="Product 1">
+              <div class="card-body">
+                  <h5 class="card-title"> {{product.product_name}}</h5>
+                  <p class="card-text">{{product.description}}</p>
+                  <p class="card-text">{{product.price}}</p>
+                  <a style="background-color: #4ac710;"  href="{% url 'add_cart' product_id=product.id %}" class="btn btn-primary">Add to Cart</a>
+                  <a style="background-color: #22806d;"  href="{% url 'product_detail' product_id=product.id %}" class="btn text-light ">Product Details</a>
+              </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+        
+    <nav class="mt-4" aria-label="Page navigation sample">
+      {% if products.has_other_pages %}
+      <ul class="pagination">
+        {% if products.has_previous %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page={{products.previous_page_number}}"
+            >Previous</a
+          >
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Previous</a>
+        </li>
+        {% endif %} 
+        {% for i in products.paginator.page_range %} 
+        {% if products.number == i %}
+        <li class="page-item active">
+          <a class="page-link" href="#">{{i}}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{i}}">{{i}}</a>
+        </li>
+        {% endif %} {% endfor %} {% if products.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{products.next_page_number}}"
+            >Next</a
+          >
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+      {% endif %}
+    </nav>
+  
+  
+  </div>
+  
+  {% elif products == None %} 
+  <div>
+   <h2>No result found. Please try again.</h2>
+  </div>
+  {% endif %}
+  
+</section>
+
+{% endblock %}
+
+
+
+
+
+

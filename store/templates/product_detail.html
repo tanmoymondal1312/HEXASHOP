@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body style="margin-top:120px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ product.image.url }}" alt="Product Image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h2>{{ product.product_name }}</h2>
+                <p>{{ product.description }}</p>
+                <p>Price: $ {{ product.price }}</p>
+
+                <!-- Product Rating -->
+                <div class="product-rating">
+                    <span>Rating: </span>
+                    <span class="fa fa-star {% if average_rating >= 1 %}checked{% endif %}"></span>
+                    <span class="fa fa-star {% if average_rating >= 2 %}checked{% endif %}"></span>
+                    <span class="fa fa-star {% if average_rating >= 3 %}checked{% endif %}"></span>
+                    <span class="fa fa-star {% if average_rating >= 4 %}checked{% endif %}"></span>
+                    <span class="fa fa-star {% if average_rating == 5 %}checked{% endif %}"></span>
+                </div>
+                <h5>Average Rating {{ average_rating }}  </h1>
+
+                <!-- Add to Cart Button -->
+                
+
+                <!-- Buy Now Button -->
+                
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h3>Customer Reviews</h3>
+                <!-- Display existing reviews here -->
+                {% for review in reviews %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ review.user.username }}</h5>
+                            <p class="card-text">{{ review.comment }}</p>
+                            <p>Rating: {{ review.rating }}/5</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No reviews yet.</p>
+                {% endfor %}
+
+                <!-- Add a Review Form -->
+                <h4>Add Your Review</h4>
+                <form method="POST" action="{% url 'product_detail' product_id=product.id %}">
+                    {% csrf_token %}
+                    <!-- Add fields for review text and rating here using Django forms -->
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery scripts here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+{% endblock %}

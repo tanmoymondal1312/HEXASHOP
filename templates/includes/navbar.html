@@ -1,0 +1,60 @@
+{% load static %}
+
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav style="background-color: white;" class="main-nav">
+                    <!-- ***** Logo Start ***** --> 
+                    <a href="{% url 'home'%}" class="logo">
+                        <img src="{% static 'images/logo.png'%}">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul style=" align-items:center;" class="nav">
+                        <li class="scroll-to-section"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="scroll-to-section"><a href="{% url 'store' %}"> Store </a></li>
+                        {% if request.user.is_authenticated %}
+                        <div style="border:1px dashed gray; padding:5px; class="widget-header">
+                            <small class="title text-muted"
+                                >Welcome ! {{request.user}}</small
+                            >
+                            <div>
+                                <a href="">Dashboard</a>
+                                <span class="dark-transp"> | </span>
+                                <a href="{% url 'logout'%}"> Logout</a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="widget-header">
+                            <small class="title text-muted">Welcome guest!</small>
+                            <div>
+                                <a href="{% url 'login' %}">Sign in</a>
+                                <span class="dark-transp"> | </span>
+                                <a href="{% url 'register' %}"> Register</a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- Add Cart Button Here -->
+                        <li class="cart"><a href="{% url 'cart' %}">Your Cart</a></li>
+                        <!-- End Cart Button -->
+                        {% comment %} <li class="submenu">
+                            <a href="javascript:;">Pages</a>
+                            <ul>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="products.html">Products</a></li>
+                                <li><a href="single-product.html">Single Product</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
+                            </ul>
+                        </li>
+                        <li class="scroll-to-section"><a href="#explore">Explore</a></li> {% endcomment %}
+                    </ul>        
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
