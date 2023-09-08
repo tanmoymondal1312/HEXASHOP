@@ -15,6 +15,7 @@ class MyForm(forms.Form):
         ('XXXL', '3 x Extra Large'),
     ])
     field4 = forms.ChoiceField(label='Field 4', choices=[
+    ('None', 'All Color'),
     ('Red', 'Red'),
     ('White','White'),
     ('Blue', 'Blue'),

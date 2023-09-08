@@ -32,6 +32,8 @@ def store(request, category_slug=None):
 
 
 
+
+
 @csrf_exempt
 def FilterItems(request):
     products = Product.objects.filter(is_available=True)  # Initialize with an empty queryset
@@ -72,14 +74,12 @@ def FilterItems(request):
         form = MyForm()
 
     # Pagination code
-    page = request.GET.get("page")
-    paginator = Paginator(products, 4)
-    product_page = paginator.get_page(page)
-    context["products"] = product_page
-    context["product_count"] = product_count
+    paginator = Paginator(products,3)
+    page_number = request.GET.get("page",1)
+    products = paginator.page(page_number)
     
-    return render(request, 'filter_items.html', {'form': form, **context})
-
+    
+    return render(request, 'filter_items.html', {'form': form, 'products':products})
 
 
 def product_detail(request, product_id):
