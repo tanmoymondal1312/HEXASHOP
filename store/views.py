@@ -36,51 +36,52 @@ def store(request, category_slug=None):
 
 @csrf_exempt
 def FilterItems(request):
-    products = Product.objects.filter(is_available=True)  # Initialize with an empty queryset
-    context = {}
-    product_count = 0
-    
-    if request.method == 'POST':
-        
-        form = MyForm(request.POST)
-        if form.is_valid():
-            print('hello')
-            field1_value = form.cleaned_data['field1']
-            field2_value = form.cleaned_data['field2']
-            field3_value = form.cleaned_data['field3']
-            field4_value = form.cleaned_data['field4']
-            
-            print(field1_value)
-            print(field2_value)
-            print(field3_value)
-            
-            if field1_value !=None and field2_value !=None and field3_value != 'None' and field4_value != 'None':
-                products = Product.objects.filter(is_available=True, price__range=(field1_value, field2_value),sizes=field3_value,color=field4_value)
-                product_count = products.count()
-                
-            elif field1_value !=None and field2_value !=None and field3_value != 'None':
-                products = Product.objects.filter(is_available=True, price__range=(field1_value, field2_value),sizes=field3_value)
-                product_count = products.count()
-                
-            elif field1_value !=None and field2_value !=None:
-                products = Product.objects.filter(is_available=True, price__range=(field1_value, field2_value))
-                product_count = products.count()
-            
-        else:
-            # Handle form validation errors here if needed
-            pass
-    else:
-        # No form submission via POST, create an empty form
-        form = MyForm()
+    products = Product.objects.filter(is_available=True)
+
+    min_price = request.GET.get('field1')
+    max_price = request.GET.get('field2')
+    size = request.GET.get('field3')
+    color = request.GET.get('field4')
+
+    # Create an empty Q object to combine filter conditions
+    filter_conditions = Q()
+
+    if min_price:
+        filter_conditions &= Q(price__gte=float(min_price))
+
+    if max_price:
+        filter_conditions &= Q(price__lte=float(max_price))
+
+    if size and size != 'None':
+        filter_conditions &= Q(sizes=size)
+
+    if color and color != 'None':
+        filter_conditions &= Q(color=color)
+
+    print(filter_conditions)
+
+    # Apply the filter conditions
+    products = products.filter(filter_conditions)
+
+    form = MyForm()
+    product_count = products.count()
 
     # Pagination code
-    paginator = Paginator(products,3)
-    page_number = request.GET.get("page",1)
+    paginator = Paginator(products, 3)
+    page_number = request.GET.get("page", 1)
     products = paginator.page(page_number)
-    
-    
-    return render(request, 'filter_items.html', {'form': form, 'products':products})
 
+    context = {
+        'form': form,
+        'products': products,
+        'p_count': product_count,
+        'field1': min_price,
+        'field2': max_price,
+        'field3': size,
+        'field4': color
+    }
+
+    return render(request, 'filter_items.html', context)
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
