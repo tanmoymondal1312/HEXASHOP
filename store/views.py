@@ -34,7 +34,7 @@ def store(request, category_slug=None):
 
 
 
-@csrf_exempt
+
 def FilterItems(request):
     products = Product.objects.filter(is_available=True)
 
