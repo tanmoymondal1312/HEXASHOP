@@ -1,6 +1,6 @@
 from django.db import models
 from category.models import Category
-from django.contrib.auth.models import User
+from accounts.models import CustomUser
 from django.db.models import Avg
 
 
@@ -38,7 +38,7 @@ class Product(models.Model):
     color = models.CharField(max_length=20, choices= COLOR_CHOICES, blank=True)
 
 class Reviews(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  
     product = models.ForeignKey(Product, on_delete=models.CASCADE) 
     rating = models.PositiveIntegerField(default=5) 
     comment = models.TextField(max_length=1000) 

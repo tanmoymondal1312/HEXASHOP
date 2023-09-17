@@ -21,13 +21,15 @@ def store(request, category_slug=None):
     else:
         # No category_slug provided, filter all available products
         products = Product.objects.filter(is_available=True).order_by('product_name')
-
+        
+    p_count = len(products)
     # Paginate the products
+    
     page = request.GET.get("page")
     paginator = Paginator(products, 4)
     product_page = paginator.get_page(page)
     categories = Category.objects.all()
-    context = {"products": product_page, "categories": categories}
+    context = {"products": product_page, "categories": categories, "p_count": p_count }
     return render(request, "store.html", context)
 
 

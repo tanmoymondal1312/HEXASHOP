@@ -41,18 +41,18 @@
           </article>
           <div>
             <form method="get" action="{% url 'filter_items' %}">          
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-between mr-3">
                   <label class="text-nowrap mx-2" for="id_field1">Min Price:</label>
-                  <input style="width:100px; margin:5px;" type="number" id="id_field1" name="field1">
+                  <input style="width:100px;" type="number" id="id_field1" name="field1">
               </div>
           
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-between mr-3">
                   <label class="text-nowrap mx-2" for="id_field2">Max Price:</label>
                   <input style="width:100px;" type="number" id="id_field2" name="field2">
               </div>          
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-between mr-3">
                   <label class="text-nowrap mx-2" for="id_field3">Select Size:</label>
-                  <select id="id_field3" name="field3"> <!-- Change 'name' attribute to 'field3' -->
+                  <select style="width:100px; margin-left:20px;" id="id_field3" name="field3"> <!-- Change 'name' attribute to 'field3' -->
                     <option value="None">All Sizes</option> 
                       <option value="S">Small</option> 
                       <option value="M">Medium</option>
@@ -62,9 +62,9 @@
                       <option value="XXXL">3 x Extra Large</option>
                   </select>
               </div>
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-between mr-3">
                 <label class="text-nowrap mx-2" for="id_field4">Select Color:</label>
-                <select id="id_field4" name="field4"> <!-- Change 'name' attribute to 'field3' -->
+                <select style="width:100px; margin-left:20px;"id="id_field4" name="field4"> <!-- Change 'name' attribute to 'field3' -->
                   <option value="None">All Color</option> 
                     <option value="Red">Red</option> 
                     <option value="White">White</option>

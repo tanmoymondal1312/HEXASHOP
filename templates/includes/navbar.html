@@ -1,6 +1,6 @@
 {% load static %}
 
-<header class="header-area header-sticky">
+<header class="header-area">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -11,18 +11,16 @@
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
-                    <ul style=" align-items:center;" class="nav">
+                    <ul style="align-items: center;" class="nav">
                         <li class="scroll-to-section"><a href="{% url 'home' %}">Home</a></li>
-                        <li class="scroll-to-section"><a href="{% url 'store' %}"> Store </a></li>
+                        <li class="scroll-to-section"><a href="{% url 'store' %}">Store</a></li>
                         {% if request.user.is_authenticated %}
-                        <div style="border:1px dashed gray; padding:5px; class="widget-header">
-                            <small class="title text-muted"
-                                >Welcome ! {{request.user}}</small
-                            >
+                        <div style="border:1px dashed gray; padding:5px;" class="widget-header">
+                            <small class="title text-muted">Welcome ! {{request.user}}</small>
                             <div>
                                 <a href="">Dashboard</a>
                                 <span class="dark-transp"> | </span>
-                                <a href="{% url 'logout'%}"> Logout</a>
+                                <a href="{% url 'logout'%}">Logout</a>
                             </div>
                         </div>
                         {% else %}
@@ -31,23 +29,21 @@
                             <div>
                                 <a href="{% url 'login' %}">Sign in</a>
                                 <span class="dark-transp"> | </span>
-                                <a href="{% url 'register' %}"> Register</a>
+                                <a href="{% url 'register' %}">Register</a>
                             </div>
                         </div>
                         {% endif %}
                         <!-- Add Cart Button Here -->
                         <li class="cart"><a href="{% url 'cart' %}">Your Cart</a></li>
-                        <!-- End Cart Button -->
-                        {% comment %} <li class="submenu">
-                            <a href="javascript:;">Pages</a>
-                            <ul>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="products.html">Products</a></li>
-                                <li><a href="single-product.html">Single Product</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
-                            </ul>
+                        {% if request.user.is_authenticated %}
+                        <!-- Profile Settings Button -->
+                        <li class="profile-settings">
+                            <a href="{% url 'profile_settings' %}">
+                                <img src="{% static 'images/setting_icon.png' %}" alt="Profile Settings"style="width: 20px; height: auto; margin-right: 5px;">
+                                Profile Settings
+                            </a>
                         </li>
-                        <li class="scroll-to-section"><a href="#explore">Explore</a></li> {% endcomment %}
+                        {% endif %}
                     </ul>        
                     <a class='menu-trigger'>
                         <span>Menu</span>
