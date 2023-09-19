@@ -57,7 +57,7 @@ def create_seller(request):
                     profile_picture=form.cleaned_data['profile_picture'],
                     phone_number=form.cleaned_data['phone_number'],
                     email=email,
-                    is_seller=False,
+                    
                     company_name=form.cleaned_data['company_name'],
                     website=form.cleaned_data['website'],
                     date_of_birth=form.cleaned_data['date_of_birth'],
@@ -114,7 +114,9 @@ def enter_confirmation_code(request):
 
             if mafc == madb:
                 matching_seller.user.is_seller = True
+                matching_seller.is_seller =True
                 matching_seller.user.save()  # Save the user to update the 'is_seller' attribute
+                matching_seller.save()
                 
                 return redirect('profile_settings')
                 
