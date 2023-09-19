@@ -16,3 +16,11 @@ class SellerForm(forms.ModelForm):
             'division',
             'district',
         ]
+
+class ConfirmationCodeForm(forms.Form):
+    confirmation_code = forms.CharField(
+        label='Confirmation Code',
+        max_length=6,  # Assuming your confirmation code is 6 digits long
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=True,
+    )
