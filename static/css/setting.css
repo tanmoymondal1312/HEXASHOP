@@ -1,0 +1,24 @@
+/* Hide the default file input */
+.input-file {
+    display: none;
+}
+
+/* Style the custom file input label */
+.custom-file-upload {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Style the label when a file is selected */
+.input-file:checked + .custom-file-upload {
+    background-color: #e74c3c;
+}
+.small-btn {
+    font-size: 14px; /* You can adjust the font size as needed */
+    padding: 5px 10px; /* You can adjust the padding as needed */
+  }
+  

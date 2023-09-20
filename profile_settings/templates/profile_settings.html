@@ -1,15 +1,14 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-
-
 <div class="container">
     <div class="row">
-        <div class="col-md-6 offset-md-3"style="margin-top: 3cm;">
-            <div class="card">
+        <div class="col-md-12 d-flex" style="margin-top: 3cm;">
+            <div class="card col-md-6">
                 <div class="card-header">
-                    <h3 class="text-center">Profile Settings</h3>
+                    <h3 class="text-center">Profile</h3>
                 </div>
                 {% if messages %}
                 <ul class="messages">
@@ -20,6 +19,7 @@
                 {% endif %}
                 <div class="card-body">
                     <form>
+                        <!-- Existing profile information fields -->
                         <div class="form-group">
                             <label for="username">Username:</label>
                             <input type="text" id="username" class="form-control" value="{{ username }}" disabled>
@@ -41,20 +41,58 @@
                             <div class="account-status-cell">
                                 {% if is_seller_seller %}
                                 <input type="text" id="Account_status" class="form-control" value="Seller" disabled>
-                                
                                 {% else %}
                                 <input type="text" id="Account_status" class="form-control" value="Buyer" disabled>
                                 <a href="{% url 'create_seller' %}">Request For Seller For Sell Products</a>
                                 {% endif %}
                             </div>
                         </div>
-                        
-                        
                     </form>
                 </div>
                 <div class="card-footer text-center">
                     <a href="#" class="btn btn-primary">Edit Profile</a>
                 </div>
+            </div>
+            <div class="col-md-6">
+                {% if profile_picture %}
+                <!-- Display the existing profile picture -->
+                <div style="margin-left: 150px;">
+                    <a>
+                        <img src="{{ profile_picture.url }}"style="width: 110px; height: 110px;margin-left: 18px;">
+                    </a>
+                </div>     
+                {% else %}
+                <!-- Display the profile picture upload form -->
+                <div style=" display:flex; flex-direction:column; align-items:center" class="">
+                    <div>
+                        <a>
+                            <img src="{% static 'images/blank_profile.png' %}" alt="Add Profile Picture" style="width: 110px; height: 110px;margin-left: 18px;">
+                        </a>
+                    </div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group" style="display:flex; flex-direction:column; align-items:center">
+                            <label for="user_profile_picture" class="custom-file-upload d-block text-center" style="width: 170px;">
+                                <input type="file" id="user_profile_picture" name="user_profile_picture" class="input-file text-center" onchange="checkFileInput()"/>
+                                Choose a picture
+                            </label>
+                            <button id="saveBtn" type="submit" class="btn btn-primary small-btn " style="display:none">Save Profile Picture</button>
+                        </div>
+                    </form>                                        
+                </div>
+
+                            
+                {% endif %}
+                <div style="position: relative; top: 350px; left: 550px;">
+                    <div>
+                        <a href="{% url 'logout' %}">
+                            <button class="btn btn-danger" style="width: 80px;">
+                                <span style="color: white;">𝐋𝐨𝐠𝐨𝐮𝐭</span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                              
             </div>
         </div>
     </div>

@@ -29,6 +29,7 @@ class CustomUser(AbstractUser):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)  # Add last_name field
     is_seller = models.BooleanField(default=False)
+    user_profile_picture = models.ImageField(upload_to='photos/user_profile_picture', null=True, blank=True)
 
     # Add additional fields as needed
     # Custom fields go here

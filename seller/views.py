@@ -124,9 +124,11 @@ def enter_confirmation_code(request):
             else:
                 messages.error(request, 'Invalid confirmation code. Please try again.')
                 #print('Invalid confirmation code. Please try again')
+                return redirect('profile_settings')
         except Seller.DoesNotExist:
             messages.error(request, 'Confirmation code not found.')
             matching_seller.delete()
+            return redirect('profile_settings')
             #print('Confirmation code not found')
 
     context = {

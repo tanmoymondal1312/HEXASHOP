@@ -14,15 +14,31 @@
                     <ul style="align-items: center;" class="nav">
                         <li class="scroll-to-section"><a href="{% url 'home' %}">Home</a></li>
                         <li class="scroll-to-section"><a href="{% url 'store' %}">Store</a></li>
+                        
+                        <!-- Add Cart Button Here -->
+                        <li class="cart"><a href="{% url 'cart' %}">Your Cart</a></li>
+
                         {% if request.user.is_authenticated %}
-                        <div style="border:1px dashed gray; padding:5px;" class="widget-header">
-                            <small class="title text-muted">Welcome ! {{request.user}}</small>
+                        <div style=" display:flex; flex-direction:column; align-items:center" >
+                            {% if request.user.user_profile_picture %}
                             <div>
-                                <a href="">Dashboard</a>
-                                <span class="dark-transp"> | </span>
-                                <a href="{% url 'logout'%}">Logout</a>
+                                <a href="#">
+                                    <img src="{{ request.user.user_profile_picture.url }}" style="width: 30px; height: 30px;">
+                                </a>
                             </div>
-                        </div>
+                            {% else %}
+                            <div>
+                                <a>
+                                    <img src="{% static 'images/blank_profile.png'%}"style="width: 30px; height: 30px;">
+                                </a>
+                            </div>
+                            {% endif %}
+                            <div style="padding: 5px; " class="widget-header">
+                                <small class="title text-muted">
+                                    <a href="{% url 'profile_settings' %}"> {{request.user}}</a>
+                                </small>
+                            </div>
+                        </div> 
                         {% else %}
                         <div class="widget-header">
                             <small class="title text-muted">Welcome guest!</small>
@@ -33,18 +49,8 @@
                             </div>
                         </div>
                         {% endif %}
-                        <!-- Add Cart Button Here -->
-                        <li class="cart"><a href="{% url 'cart' %}">Your Cart</a></li>
-                        {% if request.user.is_authenticated %}
-                        <!-- Profile Settings Button -->
-                        <li class="profile-settings">
-                            <a href="{% url 'profile_settings' %}">
-                                <img src="{% static 'images/setting_icon.png' %}" alt="Profile Settings"style="width: 20px; height: auto; margin-right: 5px;">
-                                Profile Settings
-                            </a>
-                        </li>
-                        {% endif %}
-                    </ul>        
+                        
+                    </ul> 
                     <a class='menu-trigger'>
                         <span>Menu</span>
                     </a>
