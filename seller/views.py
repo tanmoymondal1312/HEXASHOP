@@ -44,7 +44,7 @@ def create_seller(request):
                 email = form.cleaned_data['email']
                 confirmation_code = generate_confirmation_code()
 
-                mail_subject = 'HEXASHOP for seller'
+                mail_subject = 'HEXASHOP SELLER VARIFICATION CODE'
                 message = f'Your verification code is: {confirmation_code}'
                 to_email = email
                 send_email = EmailMessage(mail_subject, message, to=[to_email])
