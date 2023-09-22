@@ -1,5 +1,9 @@
 from django.db import models
 from accounts.models import CustomUser
+from django.utils import timezone  # Import the timezone module
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 class Seller(models.Model):
     
@@ -17,12 +21,20 @@ class Seller(models.Model):
     division = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
     confirmation_code=models.IntegerField(max_length=6,null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return self.name  # Replace with a suitable field to represent the Seller
 
     class Meta:
         verbose_name_plural = 'Sellers'
+        
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # Set the created_at timestamp only when the instance is created
+            self.created = timezone.now()
+        super().save(*args, **kwargs)
         
         
 

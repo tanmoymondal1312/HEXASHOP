@@ -28,6 +28,8 @@ from .models import Seller  # Import the Seller model
 
 @login_required
 def create_seller(request):
+    form = SellerForm()
+    
     try:
         seller = Seller.objects.get(user=request.user)
         if seller.user.is_seller:
@@ -35,107 +37,89 @@ def create_seller(request):
             return redirect('profile_settings')
     except Seller.DoesNotExist:
         seller = None
-        print(seller)
-        if request.method == 'POST':
-            form = SellerForm(request.POST, request.FILES)
-            user = request.user
+    
+    if request.method == 'POST':
+        form = SellerForm(request.POST, request.FILES)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            
+            # Check if a seller with the given email exists
+            existing_seller = Seller.objects.filter(email=email).first()
+            
+            if existing_seller:
+                # Email exists in Seller model, redirect to profile_settings
+                return redirect('profile_settings')
+            
+            # Generate a confirmation code (you need to implement this)
+            confirmation_code = generate_confirmation_code()
+            
+            # Create a new Seller object without associating it with any user
+            new_seller = Seller(
+                user=request.user,
+                name=form.cleaned_data['name'],
+                profile_picture=form.cleaned_data['profile_picture'],
+                phone_number=form.cleaned_data['phone_number'],
+                email=email,
+                company_name=form.cleaned_data['company_name'],
+                website=form.cleaned_data['website'],
+                date_of_birth=form.cleaned_data['date_of_birth'],
+                country=form.cleaned_data['country'],
+                division=form.cleaned_data['division'],
+                district=form.cleaned_data['district'],
+                confirmation_code=confirmation_code
+            )
+            
+            new_seller.save()
+            
+            # Send the confirmation email
+            mail_subject = 'HEXASHOP SELLER VERIFICATION CODE'
+            message = f'Your verification code is: {confirmation_code}'
+            to_email = email
+            send_email = EmailMessage(mail_subject, message, to=[to_email])
+            send_email.send()
+            
+            return redirect('enter_confirmation_code')
+    
+    return render(request, 'create_seller.html', {'form': form})
 
-            if form.is_valid():
-                email = form.cleaned_data['email']
-                confirmation_code = generate_confirmation_code()
-
-                mail_subject = 'HEXASHOP SELLER VARIFICATION CODE'
-                message = f'Your verification code is: {confirmation_code}'
-                to_email = email
-                send_email = EmailMessage(mail_subject, message, to=[to_email])
-                send_email.send()
-
-                # Create a new Seller object without associating it with any user
-                seller = Seller.objects.create(
-                    user=user,
-                    name=form.cleaned_data['name'],
-                    profile_picture=form.cleaned_data['profile_picture'],
-                    phone_number=form.cleaned_data['phone_number'],
-                    email=email,
-                    
-                    company_name=form.cleaned_data['company_name'],
-                    website=form.cleaned_data['website'],
-                    date_of_birth=form.cleaned_data['date_of_birth'],
-                    country=form.cleaned_data['country'],
-                    division=form.cleaned_data['division'],
-                    district=form.cleaned_data['district'],
-                    confirmation_code=confirmation_code
-                )
-
-                form.save()
-
-                return redirect('enter_confirmation_code')
-
-        else:
-            form = SellerForm()
-
-        context = {
-            'form': form,
-        }
-        
-    return render(request, 'create_seller.html', context)
 
 
-
-from django.shortcuts import get_object_or_404
+from django.db import transaction
 
 @login_required
 def enter_confirmation_code(request):
     try:
         seller = Seller.objects.get(user=request.user)
         if seller.user.is_seller:
-            messages.error(request, 'You are already a seller do not  try again to access those page')
+            messages.error(request, 'You are already a seller, do not try again to access this page')
             return redirect('profile_settings')
     except Seller.DoesNotExist:
         seller = None
-    form = ConfirmationCodeForm()  # Move the form declaration to the beginning of the view function
-    
+        messages.error(request, 'You are not a seller. Please register as a seller first.')
+        return redirect('profile_settings')
+    form = ConfirmationCodeForm()
     if request.method == 'POST':
-        
         confirmation_code = request.POST.get('confirmation_code')
         user = request.user
-        #print(confirmation_code)
         try:
-            matching_seller = Seller.objects.get(confirmation_code=confirmation_code)
-            
-            #print(matching_seller)           
-            #print(matching_seller.confirmation_code)           
-            #print(confirmation_code)
-            
+            email = request.user.seller_profile.email
+            user = request.user
+            matching_seller = Seller.objects.get(user__seller_profile__email=email)      
             mafc = int(confirmation_code)
-            
             madb = matching_seller.confirmation_code
             
-
             if mafc == madb:
                 matching_seller.user.is_seller = True
-                matching_seller.is_seller =True
-                matching_seller.user.save()  # Save the user to update the 'is_seller' attribute
+                matching_seller.is_seller = True
+                matching_seller.user.save()
                 matching_seller.save()
-                
                 return redirect('profile_settings')
-                
-                
             else:
                 messages.error(request, 'Invalid confirmation code. Please try again.')
-                #print('Invalid confirmation code. Please try again')
-                return redirect('profile_settings')
         except Seller.DoesNotExist:
             messages.error(request, 'Confirmation code not found.')
-            matching_seller.delete()
-            return redirect('profile_settings')
-            #print('Confirmation code not found')
 
-    context = {
-        'form': form,
-    }
+        
+    
 
-    return render(request, 'enter_confirmation_code.html', context)
-
-
-#Private routing
+    return render(request, 'enter_confirmation_code.html', {'form': form})

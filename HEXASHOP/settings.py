@@ -144,9 +144,10 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # settings.py
 
 # SMTP Email Configuration
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server address
 EMAIL_PORT = 587  # Replace with the appropriate port for your SMTP server
 EMAIL_HOST_USER = 'hexashop000@gmail.com'  # Replace with your email address
-EMAIL_HOST_PASSWORD = "jshy gjhc nnoh sswi"  # Replace with your email password
+EMAIL_HOST_PASSWORD = "xwnr jteb moch yodz"  # Replace with your email password
 EMAIL_USE_TLS = True  # Use TLS encryption for secure communication with the SMTP server
