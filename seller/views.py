@@ -48,37 +48,36 @@ def create_seller(request):
             
             if existing_seller:
                 # Email exists in Seller model, redirect to profile_settings
-                return redirect('profile_settings')
-            
-            # Generate a confirmation code (you need to implement this)
-            confirmation_code = generate_confirmation_code()
-            
-            # Create a new Seller object without associating it with any user
-            new_seller = Seller(
-                user=request.user,
-                name=form.cleaned_data['name'],
-                profile_picture=form.cleaned_data['profile_picture'],
-                phone_number=form.cleaned_data['phone_number'],
-                email=email,
-                company_name=form.cleaned_data['company_name'],
-                website=form.cleaned_data['website'],
-                date_of_birth=form.cleaned_data['date_of_birth'],
-                country=form.cleaned_data['country'],
-                division=form.cleaned_data['division'],
-                district=form.cleaned_data['district'],
-                confirmation_code=confirmation_code
-            )
-            
-            new_seller.save()
-            
-            # Send the confirmation email
-            mail_subject = 'HEXASHOP SELLER VERIFICATION CODE'
-            message = f'Your verification code is: {confirmation_code}'
-            to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
-            
-            return redirect('enter_confirmation_code')
+                return redirect('create_seller')
+            else:
+                confirmation_code = generate_confirmation_code()
+                
+                # Create a new Seller object without associating it with any user
+                new_seller = Seller(
+                    user=request.user,
+                    name=form.cleaned_data['name'],
+                    profile_picture=form.cleaned_data['profile_picture'],
+                    phone_number=form.cleaned_data['phone_number'],
+                    email=email,
+                    company_name=form.cleaned_data['company_name'],
+                    website=form.cleaned_data['website'],
+                    date_of_birth=form.cleaned_data['date_of_birth'],
+                    country=form.cleaned_data['country'],
+                    division=form.cleaned_data['division'],
+                    district=form.cleaned_data['district'],
+                    confirmation_code=confirmation_code
+                )
+                
+                new_seller.save()
+                
+                # Send the confirmation email
+                mail_subject = 'HEXASHOP SELLER VERIFICATION CODE'
+                message = f'Your verification code is: {confirmation_code}'
+                to_email = email
+                send_email = EmailMessage(mail_subject, message, to=[to_email])
+                send_email.send()
+                
+                return redirect('enter_confirmation_code')
     
     return render(request, 'create_seller.html', {'form': form})
 
@@ -95,8 +94,8 @@ def enter_confirmation_code(request):
             return redirect('profile_settings')
     except Seller.DoesNotExist:
         seller = None
-        messages.error(request, 'You are not a seller. Please register as a seller first.')
-        return redirect('profile_settings')
+        messages.error(request, 'Please register as a seller first.')
+        return redirect('create_seller')
     form = ConfirmationCodeForm()
     if request.method == 'POST':
         confirmation_code = request.POST.get('confirmation_code')
@@ -115,7 +114,8 @@ def enter_confirmation_code(request):
                 matching_seller.save()
                 return redirect('profile_settings')
             else:
-                messages.error(request, 'Invalid confirmation code. Please try again.')
+                messages.error(request, '𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗰𝗼𝗻𝗳𝗶𝗿𝗺𝗮𝘁𝗶𝗼𝗻 𝗰𝗼𝗱𝗲. 𝗣𝗹𝗲𝗮𝘀𝗲 𝘁𝗿𝘆 𝗮𝗴𝗮𝗶𝗻.')
+                return redirect('enter_confirmation_code')
         except Seller.DoesNotExist:
             messages.error(request, 'Confirmation code not found.')
 

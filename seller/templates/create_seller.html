@@ -17,27 +17,50 @@
     }
 </style>
 
-<div class="centered-content">
-    <h5>Give Us Your Personal Informations To Join Our Cloth Store As A Seller </h5>
+<div class="centered-content"style="margin-top: 65px;">
+    <p style="font-size: 20px;">Give Us Your Personal Information To Join Our Cloth Store As A Seller</p>
     <div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li style="color: red; font-weight: bold;margin-left: 20px;margin-top: 50px;"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <form method="post" enctype="multipart/form-data" style="margin-top: 1cm;">
             {% csrf_token %}
             <div class="d-flex align-items-center form-group mt-1">
                 <label style="margin-left: px;" for="{{ form.name.id_for_label }}">Name:</label>
                 <li style="margin-left: 100px;">{{ form.name }}</li>
             </div>
-            <div class="d-flex align-items-center form-group mt-1">
-                <label style="margin-left: px;" for="{{ form.profile_picture.id_for_label }}">Profile Picture:</label>
-                <li style="margin-left: 40px;">{{ form.profile_picture }}</li>
-            </div>
+            <div>
+                <div class="d-flex align-items-center">
+                    <label style="margin-top: 20px;" for="{{ form.profile_picture.id_for_label }}">Profile Picture:</label>
+                    <div style="margin-left: 40px;">
+                        {{ form.profile_picture }}
+                    </div>
+                </div>
+                <div style="display: inline-block;margin-left: 150px;color: red;">
+                    {{ form.profile_picture.errors }}
+                </div>
+            </div>           
             <div class="d-flex align-items-center form-group mt-1">
                 <label style="margin-left: px;"for="{{ form.phone_number.id_for_label }}">Phone Number:</label>
                 <li style="margin-left: 29px;">{{ form.phone_number }}</li>
             </div>
-            <div class="d-flex align-items-center form-group mt-1">
-                <label style="margin-left: px;"for="{{ form.email.id_for_label }}">Email:</label>
-                <li style="margin-left: 105px;">{{ form.email }}</li>
+            <div >
+                <div class="d-flex align-items-center">
+                    <label style="margin-top: 20px;" for="{{ form.email.id_for_label }}">Email:</label>
+                    <div style="margin-left: 105px;">
+                        {{ form.email }}
+                    </div>
+                </div>
+                <div style="display: inline-block;margin-left: 150px;color: red;">
+                    {{ form.email.errors }}
+                </div>
             </div>
+            
+                        
             <div class="d-flex align-items-center form-group mt-1">
                 <label style="margin-left: px;"for="{{ form.company_name.id_for_label }}">Company Name:</label>
                 <li style="margin-left: 15px;">{{ form.company_name }}</li>

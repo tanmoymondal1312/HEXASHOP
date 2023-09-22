@@ -1,18 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Enter Confirmation Code</h1>
-    
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6"style="margin-top: 65px;">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="text-center">Enter Confirmation Code</h1>
+                </div>
+
+                <div class="card-body">
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color: red;">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ form.confirmation_code.id_for_label }}">𝗖𝗼𝗻𝗳𝗶𝗿𝗺𝗮𝘁𝗶𝗼𝗻 𝗖𝗼𝗱𝗲:</label>
+                            {{ form.confirmation_code }}
+                            <small class="form-text text-muted">𝐄𝐧𝐭𝐞𝐫 𝐭𝐡𝐞 𝟔-𝐝𝐢𝐠𝐢𝐭 𝐜𝐨𝐝𝐞 𝐬𝐞𝐧𝐭 𝐭𝐨 𝐲𝐨𝐮𝐫 𝐞𝐦𝐚𝐢𝐥.</small>
+                            <small class="form-text text-muted" style="color: violet;">𝗬𝗼𝘂 𝗺𝘂𝘀𝘁 𝘀𝘂𝗯𝗶𝗺𝗶𝘁 𝗶𝘁 𝘂𝗻𝗱𝗲𝗿 𝟮 𝗺𝗶𝗻𝘂𝘁𝗲𝘀</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
