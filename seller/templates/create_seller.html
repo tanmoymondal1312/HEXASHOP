@@ -18,8 +18,9 @@
 </style>
 
 <div class="centered-content"style="margin-top: 65px;">
-    <p style="font-size: 20px;">Give Us Your Personal Information To Join Our Cloth Store As A Seller</p>
+    <p style="font-size: 15px;margin-right: 30px;">Give Us Your Personal Information To Join Our Cloth Store As A Seller</p>
     <div>
+        <div style="margin-right: 100px;">        
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -27,6 +28,7 @@
             {% endfor %}
         </ul>
         {% endif %}
+        </div>
         <form method="post" enctype="multipart/form-data" style="margin-top: 1cm;">
             {% csrf_token %}
             <div class="d-flex align-items-center form-group mt-1">
