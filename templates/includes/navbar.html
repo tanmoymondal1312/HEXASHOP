@@ -42,7 +42,7 @@
                         </div>
                         <li class="scroll-to-section"><a href="{% url 'activities_home' %}">Activities</a></li>
                         {% if request.user.seller_profile.is_seller %}
-                        <li class="scroll-to-section"><a href="{% url 'upload_products' %}">Work space</a></li>
+                        <li class="scroll-to-section"><a href="{% url 'work_space_home' %}">Work space</a></li>
                         {% endif %}   
                         {% else %}
                         <div class="widget-header">

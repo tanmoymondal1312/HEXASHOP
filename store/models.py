@@ -1,6 +1,7 @@
 from django.db import models
 from category.models import Category
 from accounts.models import CustomUser
+from seller.models import Seller
 from django.db.models import Avg
 
 
@@ -23,7 +24,8 @@ class Product(models.Model):
        ('Yellow', 'Yellow'),
        ('Black', 'Black'),
     )
-
+    
+    created_by = models.ForeignKey(Seller, on_delete=models.CASCADE, related_name='seller_products', null=True, blank=True)
     product_name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
     description = models.TextField(max_length=500, blank=True)
@@ -36,6 +38,7 @@ class Product(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     color = models.CharField(max_length=20, choices= COLOR_CHOICES, blank=True)
+
 
 class Reviews(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  

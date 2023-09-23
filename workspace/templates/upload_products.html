@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container"style="margin-top: 100px;">
+    <h2 class="mb-4">Create Product</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_product_name">Product Name:</label>
+            <input type="text" name="product_name" id="id_product_name" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="id_slug">Slug:</label>
+            <input type="text" name="slug" id="id_slug" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="id_description">Description:</label>
+            <textarea name="description" id="id_description" class="form-control" rows="4"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="id_price">Price:</label>
+            <input type="text" name="price" id="id_price" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="id_image">Image:</label>
+            <input type="file" name="image" id="id_image" class="form-control-file">
+        </div>
+        
+        <div class="form-group">
+            <label for="id_stock">Stock:</label>
+            <input type="number" name="stock" id="id_stock" class="form-control">
+        </div>
+        
+        <div class="form-check mb-3">
+            <input type="checkbox" name="is_available" id="id_is_available" class="form-check-input">
+            <label class="form-check-label" for="id_is_available">Is Available</label>
+        </div>
+        
+        
+        <div class="form-group">
+            <label for="id_category">Category:</label>
+            <select name="category" id="id_category" class="form-control" style="color: black; background-color: white;" required>
+                <option value="" disabled selected>Select a category</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.category_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        
+        
+        <div class="form-group">
+            <label for="id_color">Color:</label>
+            <select name="color" id="id_color" class="form-control"required>
+                <option value="" disabled selected>Select a color</option>
+                {% for choice in form.color.field.choices %}
+                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="id_sizes">Sizes:</label>
+            <select name="sizes" id="id_sizes" class="form-control"required>
+                <option value="" disabled selected>Select sizes</option>
+                {% for choice in form.sizes.field.choices %}
+                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        
+        <button type="submit" class="btn btn-primary">Create Product</button>
+    </form>
+    
+</div>
+
+{% endblock %}
