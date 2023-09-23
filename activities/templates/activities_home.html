@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>User Activity Feed</h1>
+    <ul class="list-group mt-3">
+       
+            <li class="list-group-item">
+                <div class="media">
+                    <img src="{{ activity.user.profile_picture.url }}" class="mr-3 rounded-circle" alt="{{ activity.user.username }}">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ activity.user.username }}</h5>
+                    
+                            Sold a product at 09/04/2006
+                        
+                            Bought a product at 09/04/2006
+        
+                    </div>
+                </div>
+            </li>
+        
+    </ul>
+</div>
+{% endblock %}

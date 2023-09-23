@@ -12,6 +12,7 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul style="align-items: center;" class="nav">
+
                         <li class="scroll-to-section"><a href="{% url 'home' %}">Home</a></li>
                         <li class="scroll-to-section"><a href="{% url 'store' %}">Store</a></li>
                         
@@ -22,7 +23,7 @@
                         <div style=" display:flex; flex-direction:column; align-items:center" >
                             {% if request.user.user_profile_picture %}
                             <div>
-                                <a href="#">
+                                <a href="{% url 'profile_settings' %}">
                                     <img src="{{ request.user.user_profile_picture.url }}" style="width: 30px; height: 30px;">
                                 </a>
                             </div>
@@ -38,7 +39,11 @@
                                     <a href="{% url 'profile_settings' %}"> {{request.user}}</a>
                                 </small>
                             </div>
-                        </div> 
+                        </div>
+                        <li class="scroll-to-section"><a href="{% url 'activities_home' %}">Activities</a></li>
+                        {% if request.user.seller_profile.is_seller %}
+                        <li class="scroll-to-section"><a href="{% url 'upload_products' %}">Work space</a></li>
+                        {% endif %}   
                         {% else %}
                         <div class="widget-header">
                             <small class="title text-muted">Welcome guest!</small>
@@ -49,6 +54,7 @@
                             </div>
                         </div>
                         {% endif %}
+                        
                         
                     </ul> 
                     <a class='menu-trigger'>

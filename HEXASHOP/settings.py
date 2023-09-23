@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'cart',
     'seller',   
     'profile_settings',
+    'activities',
+    'workspace',
 ]
 
 MIDDLEWARE = [

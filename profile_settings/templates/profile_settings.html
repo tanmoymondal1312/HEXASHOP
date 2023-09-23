@@ -58,9 +58,11 @@
                 <!-- Display the existing profile picture -->
                 <div style="margin-left: 150px;">
                     <a>
-                        <img src="{{ profile_picture.url }}"style="width: 110px; height: 110px;margin-left: 18px;">
+                        <div class="border border-primary rounded-circle" style="width: 150px; height: 170px; padding: 30px; margin-left: 10px;">
+                            <img src="{{ profile_picture.url }}" style="width: 110px; height: 110px; margin-left: -10px;padding-bottom: 0px;">
+                        </div>
                     </a>
-                </div>     
+                </div>                    
                 {% else %}
                 <!-- Display the profile picture upload form -->
                 <div style=" display:flex; flex-direction:column; align-items:center" class="">
