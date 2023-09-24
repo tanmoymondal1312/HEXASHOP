@@ -2,28 +2,32 @@
 
 <header class="header-area">
     <div class="container">
-        <div class="row">
+        <div class="row fixed-top ">
             <div class="col-12">
                 <nav style="background-color: white;" class="main-nav">
                     <!-- ***** Logo Start ***** --> 
-                    <a href="{% url 'home'%}" class="logo">
+                    <a href="{% url 'home'%}" class="logo"style="margin-left: 4cm;">
                         <img src="{% static 'images/logo.png'%}">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul style="align-items: center;" class="nav">
-
-                        <li class="scroll-to-section"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="scroll-to-section"><a style="margin-rigth: 30cm;" href="{% url 'home' %}">Home</a></li>
                         <li class="scroll-to-section"><a href="{% url 'store' %}">Store</a></li>
                         
                         <!-- Add Cart Button Here -->
                         <li class="cart"><a href="{% url 'cart' %}">Your Cart</a></li>
-
+                        {% if request.user.is_authenticated %}
+                        <li class="scroll-to-section"><a href="{% url 'activities_home' %}">Activities</a></li>
+                        {% endif %}
+                        {% if request.user.seller_profile.is_seller %}
+                        <li class="scroll-to-section"><a href="{% url 'work_space_home' %}">Work space</a></li>
+                        {% endif %}   
                         {% if request.user.is_authenticated %}
                         <div style=" display:flex; flex-direction:column; align-items:center" >
                             {% if request.user.user_profile_picture %}
                             <div>
-                                <a href="{% url 'profile_settings' %}">
+                                <a href="#">
                                     <img src="{{ request.user.user_profile_picture.url }}" style="width: 30px; height: 30px;">
                                 </a>
                             </div>
@@ -39,11 +43,7 @@
                                     <a href="{% url 'profile_settings' %}"> {{request.user}}</a>
                                 </small>
                             </div>
-                        </div>
-                        <li class="scroll-to-section"><a href="{% url 'activities_home' %}">Activities</a></li>
-                        {% if request.user.seller_profile.is_seller %}
-                        <li class="scroll-to-section"><a href="{% url 'work_space_home' %}">Work space</a></li>
-                        {% endif %}   
+                        </div> 
                         {% else %}
                         <div class="widget-header">
                             <small class="title text-muted">Welcome guest!</small>
@@ -54,7 +54,6 @@
                             </div>
                         </div>
                         {% endif %}
-                        
                         
                     </ul> 
                     <a class='menu-trigger'>
