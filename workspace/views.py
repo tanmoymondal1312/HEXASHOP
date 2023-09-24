@@ -3,7 +3,10 @@ from store.models import Product
 from django.shortcuts import render, redirect
 from .forms import ProductForm
 from category.models import Category
-
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from accounts.models import CustomUser
+from django.shortcuts import render, redirect, get_object_or_404
 
 
 
@@ -26,3 +29,6 @@ def UploadProduct(request):
     categories = Category.objects.all()
 
     return render(request, 'upload_products.html', {'form': form, 'categories': categories})
+
+
+

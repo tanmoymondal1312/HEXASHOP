@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'profile_settings',
     'activities',
     'workspace',
+    'hexamessage',
 ]
 
 MIDDLEWARE = [
