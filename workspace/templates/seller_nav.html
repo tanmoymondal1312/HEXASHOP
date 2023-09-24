@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<nav class="navbar"style="margin-top: 80px;">
+    <h1>Welcome to HEXASHOP workspace</h1>
+    <div class="ml-auto">
+        <div class="row">
+            <div class="col">
+                <a href="{% url 'upload_products' %}" class="btn btn-primary">Upload Products</a>
+            </div>
+            <div class="col">
+                <a href="{% url 'store' %}" class="btn btn-success">Sales History</a>
+            </div>
+        </div>
+    </div>    
+</nav>
+{% block seller_nav %}
+
+
+{% endblock %}
+{% endblock %}
