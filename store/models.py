@@ -23,6 +23,7 @@ class Product(models.Model):
        ('Green', 'Green'),
        ('Yellow', 'Yellow'),
        ('Black', 'Black'),
+       ('Vilolet', 'Violet'),
     )
     
     created_by = models.ForeignKey(Seller, on_delete=models.CASCADE, related_name='seller_products', null=True, blank=True)

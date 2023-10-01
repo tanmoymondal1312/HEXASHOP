@@ -22,6 +22,7 @@ class MyForm(forms.Form):
     ('Green', 'Green'),
     ('Yellow', 'Yellow'),
     ('Black', 'Black'),
+    ('Violet', 'Violet'),
     
 ])
 
