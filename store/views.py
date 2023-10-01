@@ -115,3 +115,7 @@ def product_detail(request, product_id):
 
 
 
+
+
+def FeatureNV(request):
+    return render(request, 'featurenv.html')

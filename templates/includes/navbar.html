@@ -27,7 +27,7 @@
                         <div style=" display:flex; flex-direction:column; align-items:center" >
                             {% if request.user.user_profile_picture %}
                             <div>
-                                <a href="#">
+                                <a href="{% url 'profile_settings' %}">
                                     <img src="{{ request.user.user_profile_picture.url }}" style="width: 30px; height: 30px;">
                                 </a>
                             </div>
