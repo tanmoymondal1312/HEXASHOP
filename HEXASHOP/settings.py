@@ -45,8 +45,9 @@ INSTALLED_APPS = [
     'profile_settings',
     'activities',
     'workspace',
-    'hexamessage',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,31 +97,28 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
-# AUTH_PASSWORD_VALIDATORS = [
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-#     },
-# ]
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'Asia/Dhaka' 
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -149,8 +147,8 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # SMTP Email Configuration
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server address
-EMAIL_PORT = 587  # Replace with the appropriate port for your SMTP server
-EMAIL_HOST_USER = 'hexashop000@gmail.com'  # Replace with your email address
-EMAIL_HOST_PASSWORD = "xwnr jteb moch yodz"  # Replace with your email password
-EMAIL_USE_TLS = True  # Use TLS encryption for secure communication with the SMTP server
+EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_PORT = 587 
+EMAIL_HOST_USER = 'hexashop000@gmail.com' 
+EMAIL_HOST_PASSWORD = "xwnr jteb moch yodz"  
+EMAIL_USE_TLS = True

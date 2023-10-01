@@ -20,7 +20,7 @@ class Seller(models.Model):
     country = models.CharField(max_length=100)
     division = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
-    confirmation_code=models.IntegerField(max_length=6,null=True)
+    confirmation_code = models.IntegerField(null=True)
     created = models.DateTimeField(auto_now_add=True)
 
 

@@ -31,6 +31,5 @@ urlpatterns = [
     path('seller/', include('seller.urls')),   
     path('settings/', include('profile_settings.urls')),   
     path('activities/', include('activities.urls')),  
-    path('workspace/', include('workspace.urls')), 
-    path('hexamessage/', include('hexamessage.urls')),
+    path('workspace/', include('workspace.urls')),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
