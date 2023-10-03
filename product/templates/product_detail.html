@@ -49,16 +49,13 @@
                         <button type="submit" class="btn btn-primary">Submit Rating</button>
                     </form>
                 </div>
-                <!-- <div class="rating-box">
-                    <h3>How was your experience?</h3>
-                    <div class="stars">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                </div> -->
+                <form id="comment-form">
+                    <input type="hidden" name="user" value="{{ request.user.id }}">
+                    <input type="hidden" name="product" value="{{ product.id }}">
+                    <textarea name="comment" cols="30" rows="5"></textarea>
+                    <button type="submit">Submit Comment</button>
+                </form>
+                
                 {% else %}
 
                 <p style="font-size:20px " class="text-center mt-1">Login first to add rviews and ratings <a
@@ -68,12 +65,11 @@
 
                 <h3>Customer Reviews</h3>
                 <!-- Display existing reviews here -->
-                {% for review in reviews %}
+                {% for comment in comments %}
                 <div class="card mb-2">
                     <div class="card-body">
-                        <h5 class="card-title">{{ review.user.username }}</h5>
-                        <p class="card-text">{{ review.comment }}</p>
-                        <p>Rating: {{ review.rating }}/5</p>
+                        <h5 class="card-title">{{ comment.user.username }}</h5>
+                        <p class="card-text">{{ comment.comment }}</p>
                     </div>
                 </div>
                 {% empty %}
@@ -107,9 +103,6 @@
                     });
                 });
             });
-
-
-
 
 
             ratingForm.addEventListener('submit', function (event) {
@@ -162,6 +155,55 @@
                 return cookieValue;
             }
         });
+        //Get Comment and Submit---------------------------------------------------
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentForm = document.getElementById('comment-form');
+        
+            commentForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+        
+                const user = this.querySelector('[name="user"]').value;
+                const product = this.querySelector('[name="product"]').value;
+                const comment = this.querySelector('[name="comment"]').value;
+        
+                fetch('http://127.0.0.1:8000/product/api/comment/create/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        user: user,
+                        product: product,
+                        comment: comment
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Comment submitted successfully:', data);
+                    location.reload(); // Reload the page
+                })
+                .catch(error => {
+                    console.error('Error submitting comment:', error);
+                });
+            });
+        
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+        
     </script>
 </body>
 

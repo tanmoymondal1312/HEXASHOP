@@ -5,6 +5,7 @@ urlpatterns = [
     
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
     path('api/ratting/create/', views.RattingCreateAPIView.as_view(), name='ratting-create'),
+    path('api/comment/create/', views.CommentCreateAPIView.as_view(), name='comment-create'),
     
 ]
 
