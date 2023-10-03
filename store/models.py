@@ -39,15 +39,3 @@ class Product(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     color = models.CharField(max_length=20, choices= COLOR_CHOICES, blank=True)
-
-
-class Reviews(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  
-    product = models.ForeignKey(Product, on_delete=models.CASCADE) 
-    rating = models.PositiveIntegerField(default=5) 
-    comment = models.TextField(max_length=1000) 
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Review by {self.user.username} for {self.product.product_name}"

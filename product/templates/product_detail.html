@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body style="margin-top:120px;">
+    <div class="container">
+        <!-- ... (existing content) ... -->
+
+        <!-- Product Rating Section -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h3>Rate this Product</h3>
+                <form id="rating-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <div class="form-group">
+                        <label for="stars">Stars:</label>
+                        <select class="form-control" id="stars" name="stars">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Rating</button>
+                </form>
+                <h5>{{average_rating}}</h5>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <!-- ... (existing content) ... -->
+
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery scripts here -->
+
+
+    <!-- Add your ratings.js file -->
+
+    <!-- Add the provided JavaScript code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ratingForm = document.getElementById('rating-form');
+    
+            ratingForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+    
+                const user = "{{ request.user.id }}";
+                const product = "{{ product.id }}";
+                const stars = document.getElementById('stars').value;
+    
+                // Make an AJAX request to submit the rating
+                fetch('http://127.0.0.1:8000/product/api/ratting/create/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        user: user,
+                        product: product,
+                        rating: stars
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Rating submitted successfully:', data);
+                    location.reload(); // Reload the page
+                })
+                .catch(error => {
+                    console.error('Error submitting rating:', error);
+                });
+            });
+    
+            // Function to get CSRF token
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
+    
+    
+</body>
+
+{% endblock %}

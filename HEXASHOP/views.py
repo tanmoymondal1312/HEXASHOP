@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from store.models import Product, Category, Reviews
+from store.models import Product, Category
 from django.core.paginator import Paginator
 from accounts.models import CustomUser
 from django.contrib.auth.decorators import login_required

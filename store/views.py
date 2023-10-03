@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product,Reviews
+from .models import Product
 from django.urls import reverse
 from django.contrib import messages
 from category.models import Category
 from django.core.paginator import Paginator
-from .forms import MyForm,ReviewModelForm
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
+from .forms import MyForm
 
 
 
@@ -85,31 +85,6 @@ def FilterItems(request):
 
     return render(request, 'filter_items.html', context)
 
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    reviews = Reviews.objects.filter(product=product)
-    
-    average_rating = 0 
-    
-    if reviews.exists():
-        total_rating = sum([review.rating for review in reviews])
-        average_rating = total_rating / len(reviews)
-
-    if request.method == 'POST':
-        form = ReviewModelForm(request.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.product = product
-            review.user = request.user
-            review.save()
-            return redirect('product_detail', product_id=product_id)
-    
-    
-    else:
-        form = ReviewModelForm()
-    
-
-    return render(request, 'product_detail.html', {'average_rating':average_rating,'reviews':reviews,'product': product, 'form': form})
 
 
 
