@@ -4,53 +4,124 @@
 
 <body style="margin-top:120px;">
     <div class="container">
-        <!-- ... (existing content) ... -->
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ product.image.url }}" alt="Product Image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h2>{{ product.product_name }}</h2>
+                <p>{{ product.description }}</p>
+                <p>Price: $ {{ product.price }}</p>
+                <p style="font-size:20px;" class="fs-1">Size: {{product.sizes}}</p>
 
-        <!-- Product Rating Section -->
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <h3>Rate this Product</h3>
-                <form id="rating-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="product_id" value="{{ product.id }}">
-                    <div class="form-group">
-                        <label for="stars">Stars:</label>
-                        <select class="form-control" id="stars" name="stars">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit Rating</button>
-                </form>
-                <h5>{{average_rating}}</h5>
+                <!-- Product Rating -->
+                <h5>Average Rating: {{ average_rating }} </h5>
+                <h5>Color: {{ product.color }} </h5>
+
+
+                <!-- Add to Cart Button -->
+
+
+                <!-- Buy Now Button -->
+
             </div>
         </div>
 
         <!-- Reviews Section -->
-        <!-- ... (existing content) ... -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                {% if request.user.is_authenticated %}
+                <div>
+                    <h4>Add Your Review</h4>
+                    <form id="rating-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <div class="form-group rating-box">
+                            <h3>Rate this product</h3>
+                            <div class="stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Rating</button>
+                    </form>
+                </div>
+                <!-- <div class="rating-box">
+                    <h3>How was your experience?</h3>
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div> -->
+                {% else %}
 
+                <p style="font-size:20px " class="text-center mt-1">Login first to add rviews and ratings <a
+                        href="{% url 'login'%}">Login</a></p>
+
+                {% endif %}
+
+                <h3>Customer Reviews</h3>
+                <!-- Display existing reviews here -->
+                {% for review in reviews %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ review.user.username }}</h5>
+                        <p class="card-text">{{ review.comment }}</p>
+                        <p>Rating: {{ review.rating }}/5</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No reviews yet.</p>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
     <!-- Add Bootstrap JS and jQuery scripts here -->
 
-
-    <!-- Add your ratings.js file -->
-
-    <!-- Add the provided JavaScript code -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const ratingForm = document.getElementById('rating-form');
-    
-            ratingForm.addEventListener('submit', function(event) {
+            let selectedStars = 0 ;
+
+
+            const stars = document.querySelectorAll(".stars i");
+            // Loop through the "stars" NodeList
+            stars.forEach((star, index1) => {
+                // Add an event listener that runs a function when the "click" event is triggered
+                star.addEventListener("click", () => {
+
+                    selectedStars = index1 + 1 ;
+                    console.log(selectedStars, "selectedStars");
+                    // Loop through the "stars" NodeList Again
+                    stars.forEach((star, index2) => {
+                        // Add the "active" class to the clicked star and any stars with a lower index
+                        // and remove the "active" class from any stars with a higher index
+                        index1 >= index2 ? star.classList.add("active") : star.classList.remove("active");
+                    });
+                });
+            });
+
+
+
+
+
+            ratingForm.addEventListener('submit', function (event) {
                 event.preventDefault();
-    
+
+                //console.log(selectedStars)
+
                 const user = "{{ request.user.id }}";
                 const product = "{{ product.id }}";
-                const stars = document.getElementById('stars').value;
-    
+                //const selectedStars = selectedStars;
+
+
                 // Make an AJAX request to submit the rating
                 fetch('http://127.0.0.1:8000/product/api/ratting/create/', {
                     method: 'POST',
@@ -61,19 +132,20 @@
                     body: JSON.stringify({
                         user: user,
                         product: product,
-                        rating: stars
+                        rating: selectedStars,
                     })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Rating submitted successfully:', data);
-                    location.reload(); // Reload the page
-                })
-                .catch(error => {
-                    console.error('Error submitting rating:', error);
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Rating submitted successfully:', data);
+                        location.reload(); // Reload the page
+                    })
+                    .catch(error => {
+                        console.error('Error submitting rating:', error);
+                    });
+                
             });
-    
+
             // Function to get CSRF token
             function getCookie(name) {
                 let cookieValue = null;
@@ -91,8 +163,6 @@
             }
         });
     </script>
-    
-    
 </body>
 
 {% endblock %}
