@@ -48,7 +48,7 @@
             </div>
             <nav class="mt-4 d-flex justify-content-center" aria-label="Page navigation sample">
                 {% if products.has_other_pages %}
-                <ul class="pagination justify-content-end mr-0"> {# Add justify-content-end class here #}
+                <ul class="pagination justify-content-end mr-0">
                     {% if products.has_previous %}
                     <li class="page-item">
                         <a class="page-link" href="?page={{products.previous_page_number}}">Previous</a>
