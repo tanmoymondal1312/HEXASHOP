@@ -18,6 +18,9 @@ def store(request, category_slug=None):
         # Filter products by category if category_slug is provided
         category = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(is_available=True, category=category).order_by('product_name')
+        
+    
+    
     else:
         # No category_slug provided, filter all available products
         products = Product.objects.filter(is_available=True).order_by('product_name')

@@ -3,6 +3,7 @@ from store.models import Product
 from .models import Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from activities.models import Activities
 
 def _cart_id(request):
     cart = request.session.session_key
@@ -10,6 +11,7 @@ def _cart_id(request):
         cart = request.session.create()
     return cart
 
+#Single Item add
 def add_to_cart(request, product_id):
     current_user = request.user
     product = Product.objects.get(id=product_id) #get the product
@@ -21,6 +23,8 @@ def add_to_cart(request, product_id):
             print(cart_items)
             item = CartItem.objects.get(product=product, user=current_user)
             item.quantity += 1
+            activities_instance = Activities(data=f"You Add {item.quantity} {product.product_name} in your cart on",user=request.user)
+            activities_instance.save()
             item.save()
             
         else:
@@ -37,6 +41,8 @@ def add_to_cart(request, product_id):
                 cart = cart,
                 user = current_user
             )
+            activities_instance = Activities(data=f"You Add a {product.product_name} in your cart on",user=request.user)
+            activities_instance.save()
             cart_item.save()
         return redirect('cart')
     else:
@@ -84,9 +90,13 @@ def remove_cart_item(request, product_id, cart_item_id):
             cart_item = CartItem.objects.get(product=product, cart=cart, id=cart_item_id)
         if cart_item.quantity > 1:
             cart_item.quantity -= 1
+            activities_instance = Activities(data=f"You reduce {product.product_name} quantity from your cart on",user=request.user)
+            activities_instance.save()
             cart_item.save()
         else:
             cart_item.delete()
+            activities_instance = Activities(data=f"You Removed  {product.product_name} from your cart on",user=request.user)
+            activities_instance.save()
     except:
         pass
     return redirect('cart')

@@ -7,6 +7,8 @@ from .models import Seller
 from .forms import SellerForm,ConfirmationCodeForm
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from activities.models import Activities
+import re
 
 import random
 
@@ -95,16 +97,26 @@ def enter_confirmation_code(request):
     except Seller.DoesNotExist:
         seller = None
         messages.error(request, 'Please register as a seller first.')
+        activities_instance = Activities(data=f"You request for a seller (Not excepted)",user=request.user)
+        activities_instance.save()
         return redirect('create_seller')
     form = ConfirmationCodeForm()
     if request.method == 'POST':
         confirmation_code = request.POST.get('confirmation_code')
         user = request.user
+        
+        if re.search(r'\D', confirmation_code):
+            messages.error(request, '𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗰𝗼𝗻𝗳𝗶𝗿𝗺𝗮𝘁𝗶𝗼𝗻 𝗰𝗼𝗱𝗲. 𝗣𝗹𝗲𝗮𝘀𝗲 𝘁𝗿𝘆 𝗮𝗴𝗮𝗶𝗻.')
+            return redirect('enter_confirmation_code')
+            
+        
         try:
             email = request.user.seller_profile.email
             user = request.user
             matching_seller = Seller.objects.get(user__seller_profile__email=email)      
             mafc = int(confirmation_code)
+            
+            
             madb = matching_seller.confirmation_code
             
             if mafc == madb:
@@ -112,14 +124,17 @@ def enter_confirmation_code(request):
                 matching_seller.is_seller = True
                 matching_seller.user.save()
                 matching_seller.save()
+                
+                activities_instance = Activities(data=f"You joind HEXASHOP as a seller at",user=request.user)
+                activities_instance.save()
+                
                 return redirect('profile_settings')
             else:
                 messages.error(request, '𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗰𝗼𝗻𝗳𝗶𝗿𝗺𝗮𝘁𝗶𝗼𝗻 𝗰𝗼𝗱𝗲. 𝗣𝗹𝗲𝗮𝘀𝗲 𝘁𝗿𝘆 𝗮𝗴𝗮𝗶𝗻.')
                 return redirect('enter_confirmation_code')
         except Seller.DoesNotExist:
             messages.error(request, 'Confirmation code not found.')
-
-        
+            
     
 
     return render(request, 'enter_confirmation_code.html', {'form': form})

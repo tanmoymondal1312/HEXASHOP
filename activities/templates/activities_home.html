@@ -1,23 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5"style="margin-left:200px;">
     <h1>User Activity Feed</h1>
     <ul class="list-group mt-3">
-       
+            {% for activity in activities %}
             <li class="list-group-item">
                 <div class="media">
-                    <img src="{{ activity.user.profile_picture.url }}" class="mr-3 rounded-circle" alt="{{ activity.user.username }}">
                     <div class="media-body">
-                        <h5 class="mt-0">{{ activity.user.username }}</h5>
-                    
-                            Sold a product at 09/04/2006
-                        
-                            Bought a product at 09/04/2006
-        
+                        <p>{{ activity.data }} {{ activity.created_date }}</p>
                     </div>
                 </div>
             </li>
+            {% endfor %}
         
     </ul>
 </div>

@@ -9,6 +9,8 @@ from .models import CustomUser
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
 import logging  # Import the logging module
+from activities.models import Activities
+from django.utils import timezone
 
 # Configure the logger
 logger = logging.getLogger(__name__)
@@ -32,9 +34,13 @@ def register(request):
                     except DjangoValidationError as e:
                         form.add_error('password1', e)
                         return render(request, 'accounts/register.html', {'form': form})
-
+                    
                     user = form.save()  # Save the user with form data
                     login(request, user)
+                    #current_time = timezone.now()
+                    #formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+                    activities_instance = Activities(data=f"You Create an account at ",user=request.user)
+                    activities_instance.save()
                     return redirect('home')
                 except IntegrityError:
                     form.add_error('username', 'Username has already been taken')
@@ -73,6 +79,8 @@ def user_login(request):
                 except Exception as e:
                     logger.error(f"Error during cart item migration: {e}")
                 login(request, user)
+                activities_instance = Activities(data=f"You logged in at ",user=request.user)
+                activities_instance.save()
                 return redirect('home')
             else:
                 messages.error(request, 'Invalid login credentials')
@@ -82,5 +90,7 @@ def user_login(request):
     return render(request, 'accounts/signin.html', {'form': form})
 
 def user_logout(request):
-    logout(request)
+    activities_instance = Activities(data=f"You logged out at ",user=request.user)
+    activities_instance.save()
+    logout(request)  
     return redirect('login')

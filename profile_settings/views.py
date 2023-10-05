@@ -4,6 +4,7 @@ from accounts.models import CustomUser
 from seller.models import Seller
 from .forms import UserProfilePictureForm
 from django.contrib import messages
+from activities.models import Activities
 
 @login_required
 def ProfileSettings(request):
@@ -31,6 +32,8 @@ def ProfileSettings(request):
         form = UserProfilePictureForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
+            activities_instance = Activities(data=f"You update your picture on",user=request.user)
+            activities_instance.save()
             messages.success(request, 'Profile picture updated successfully.')
             return redirect('profile_settings')  # Redirect to the user's profile page after a successful upload
     else:
