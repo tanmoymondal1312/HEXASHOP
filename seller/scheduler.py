@@ -11,4 +11,4 @@ def check_seller_instances():
     from django.core import management
     management.call_command('check_seller_instances')
 
-start_scheduler()
+start_scheduler() 
