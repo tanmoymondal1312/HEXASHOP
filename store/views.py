@@ -13,17 +13,34 @@ from .forms import MyForm
 # Create your views here.
 def store(request, category_slug=None):
     category = None
-    products = None
+    products = Product.objects.filter(is_available=True)
+    
+    form = MyForm()
+    min_price = request.GET.get('field1')
+    max_price = request.GET.get('field2')
+    size = request.GET.get('field3')
+    color = request.GET.get('field4')
+    
+    filter_conditions = Q()
     if category_slug:
         # Filter products by category if category_slug is provided
         category = get_object_or_404(Category, slug=category_slug)
-        products = Product.objects.filter(is_available=True, category=category).order_by('product_name')
+        products = products.filter(category=category).order_by('product_name')
+    
+    if min_price:
+        filter_conditions &= Q(price__gte=float(min_price))
         
+    if max_price:
+        filter_conditions &= Q(price__lte=float(max_price))
     
+    if size and size != 'None':
+        filter_conditions &= Q(sizes=size)
+         
+    if color and color != 'None':
+        filter_conditions &= Q(color=color)
     
-    else:
-        # No category_slug provided, filter all available products
-        products = Product.objects.filter(is_available=True).order_by('product_name')
+    if filter_conditions:
+        products = products.filter(filter_conditions)
         
     p_count = len(products)
     # Paginate the products
@@ -32,7 +49,7 @@ def store(request, category_slug=None):
     paginator = Paginator(products, 4)
     product_page = paginator.get_page(page)
     categories = Category.objects.all()
-    context = {"products": product_page, "categories": categories, "p_count": p_count }
+    context = {"products": product_page, "categories": categories, "p_count": p_count,"form":form }
     return render(request, "store.html", context)
 
 
@@ -40,53 +57,54 @@ def store(request, category_slug=None):
 
 
 
-def FilterItems(request):
-    products = Product.objects.filter(is_available=True)
 
-    min_price = request.GET.get('field1')
-    max_price = request.GET.get('field2')
-    size = request.GET.get('field3')
-    color = request.GET.get('field4')
+# def FilterItems(request):
+#     products = Product.objects.filter(is_available=True)
 
-    # Create an empty Q object to combine filter conditions
-    filter_conditions = Q()
+#     min_price = request.GET.get('field1')
+#     max_price = request.GET.get('field2')
+#     size = request.GET.get('field3')
+#     color = request.GET.get('field4')
 
-    if min_price:
-        filter_conditions &= Q(price__gte=float(min_price))
+#     # Create an empty Q object to combine filter conditions
+#     filter_conditions = Q()
 
-    if max_price:
-        filter_conditions &= Q(price__lte=float(max_price))
+#     if min_price:
+#         filter_conditions &= Q(price__gte=float(min_price))
 
-    if size and size != 'None':
-        filter_conditions &= Q(sizes=size)
+#     if max_price:
+#         filter_conditions &= Q(price__lte=float(max_price))
 
-    if color and color != 'None':
-        filter_conditions &= Q(color=color)
+#     if size and size != 'None':
+#         filter_conditions &= Q(sizes=size)
 
-    print(filter_conditions)
+#     if color and color != 'None':
+#         filter_conditions &= Q(color=color)
 
-    # Apply the filter conditions
-    products = products.filter(filter_conditions)
+#     print(filter_conditions)
 
-    form = MyForm()
-    product_count = products.count()
+#     # Apply the filter conditions
+#     products = products.filter(filter_conditions)
 
-    # Pagination code
-    paginator = Paginator(products, 3)
-    page_number = request.GET.get("page", 1)
-    products = paginator.page(page_number)
+#     form = MyForm()
+#     product_count = products.count()
 
-    context = {
-        'form': form,
-        'products': products,
-        'p_count': product_count,
-        'field1': min_price,
-        'field2': max_price,
-        'field3': size,
-        'field4': color
-    }
+#     # Pagination code
+#     paginator = Paginator(products, 3)
+#     page_number = request.GET.get("page", 1)
+#     products = paginator.page(page_number)
 
-    return render(request, 'filter_items.html', context)
+#     context = {
+#         'form': form,
+#         'products': products,
+#         'p_count': product_count,
+#         'field1': min_price,
+#         'field2': max_price,
+#         'field3': size,
+#         'field4': color
+#     }
+
+#     return render(request, 'filter_items.html', context)
 
 
 

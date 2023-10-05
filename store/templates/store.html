@@ -40,7 +40,7 @@
             </div>
           </article>
           <div>
-            <form method="get" action="{% url 'filter_items' %}">          
+            <form method="GET" action="{% url 'store' %}">          
               <div class="d-flex align-items-center justify-content-between mr-3">
                   <label class="text-nowrap mx-2" for="id_field1">Min Price:</label>
                   <input style="width:100px;" type="number" id="id_field1" name="field1">
@@ -76,9 +76,7 @@
                 </select>
             </div>      
               <button type="submit">Submit</button>
-          </form>
-          
-          
+            </form>
           </div>
         </div>
         <!-- card.// -->
