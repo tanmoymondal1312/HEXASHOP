@@ -28,33 +28,39 @@
         </div>
 
         <!-- Reviews Section -->
-        <div class="row mt-4">
-            <div class="col-md-12">
+        <div class="row my-4">
+            <div class="col-md-12 ">
                 {% if request.user.is_authenticated %}
-                <div>
-                    <h4>Add Your Review</h4>
+                <div style="margin:40px 0;">
+                    <h4>Rate this product</h4>
                     <form id="rating-form">
                         {% csrf_token %}
                         <input type="hidden" name="product_id" value="{{ product.id }}">
                         <div class="form-group rating-box">
-                            <h3>Rate this product</h3>
-                            <div class="stars">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                            <!-- <h3 style="margin-bottom: 20px;">Rate this product</h3> -->
+                            <div style="display: flex; gap:20px;">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Rating</button>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit Rating</button>
+                        
                     </form>
                 </div>
-                <form id="comment-form">
-                    <input type="hidden" name="user" value="{{ request.user.id }}">
-                    <input type="hidden" name="product" value="{{ product.id }}">
-                    <textarea name="comment" cols="30" rows="5"></textarea>
-                    <button type="submit">Submit Comment</button>
-                </form>
+                <div>
+                    <h4>Write a review</h4>
+                    <form id="comment-form" style="width: 500px; margin-bottom:50px; ">
+                        <input type="hidden" name="user" value="{{ request.user.id }}">
+                        <input type="hidden" name="product" value="{{ product.id }}">
+                        <textarea name="comment" style="display: block; width:100%; height:100px; border-radius:5px; border:1px solid #c5c7c9;"></textarea>
+                        <button type="submit" style="float: right; margin-top:10px;" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
                 
                 {% else %}
 
@@ -63,15 +69,13 @@
 
                 {% endif %}
 
-                <h3>Customer Reviews</h3>
+                <h4 style="margin-bottom: 20px;">Customer Reviews</h4>
                 <!-- Display existing reviews here -->
                 {% for comment in comments %}
-                <div class="card mb-2">
-                    <div class="card-body">
+                    <div style=" width:500px; padding:10px; margin:10px 0px; border:1px solid #c5c7c9; border-radius:5px ;" class="" >
                         <h5 class="card-title">{{ comment.user.username }}</h5>
                         <p class="card-text">{{ comment.comment }}</p>
                     </div>
-                </div>
                 {% empty %}
                 <p>No reviews yet.</p>
                 {% endfor %}
