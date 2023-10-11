@@ -8,98 +8,21 @@
 <!-- Rest of your content -->
 <div class="container" style="margin-top: 200px;">
     <div class="row">
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Description of Product 1.</p>
-                <p><strong>Price:</strong> $19.99</p>
+        <div class="" style="display: flex; justify-content: space-between;">
+            {% for product in seller_products %}
+            <div style="flex-basis: 30%;" class="product-card">
+                <img src="{{ product.product.image.url }}" alt="Product 1" style="max-width: 100%; height: 20%;">
+                <p>{{product.product.product_name}}</p>
+                <p>{{product.created_at}}</p>
+
+                <p><strong>Price:</strong> {{product.product.price}}</p>
                 <button class="btn btn-primary">View Details</button>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Description of Product 1.</p>
-                <p><strong>Price:</strong> $19.99</p>
-                <button class="btn btn-primary">View Details</button>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Description of Product 1.</p>
-                <p><strong>Price:</strong> $19.99</p>
-                <button class="btn btn-primary">View Details</button>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Description of Product 1.</p>
-                <p><strong>Price:</strong> $19.99</p>
-                <button class="btn btn-primary">View Details</button>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Description of Product 1.</p>
-                <p><strong>Price:</strong> $19.99</p>
-                <button class="btn btn-primary">View Details</button>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Description of Product 1.</p>
-                <p><strong>Price:</strong> $19.99</p>
-                <button class="btn btn-primary">View Details</button>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Description of Product 1.</p>
-                <p><strong>Price:</strong> $19.99</p>
-                <button class="btn btn-primary">View Details</button>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Description of Product 1.</p>
-                <p><strong>Price:</strong> $19.99</p>
-                <button class="btn btn-primary">View Details</button>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 2">
-                <h3>Product 2</h3>
-                <p>Description of Product 2.</p>
-                <p><strong>Price:</strong> $24.99</p>
-                <button class="btn btn-primary">View Details</button>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 3">
-                <h3>Product 3</h3>
-                <p>Description of Product 3.</p>
-                <p><strong>Price:</strong> $29.99</p>
-                <button class="btn btn-primary">View Details</button>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
+
 <!-- Add Bootstrap and jQuery scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

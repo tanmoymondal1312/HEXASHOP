@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_seller','is_staff', 'is_superuser', 'date_joined')  # Include 'is_seller' in the list_display
+    list_display = ('username', 'email','first_name', 'last_name', 'is_seller','is_staff', 'is_superuser', 'date_joined')  # Include 'is_seller' in the list_display
     list_filter = ('is_seller','is_staff', 'is_superuser', 'date_joined')  # Include 'is_seller' in the list_filter
     search_fields = ('username', 'email', 'first_name', 'last_name')
     ordering = ('date_joined',)
@@ -14,12 +14,13 @@ class CustomUserAdmin(UserAdmin):
         ('Custom Fields', {'fields': ('is_seller',)}),  # Include 'is_seller' in the 'Custom Fields' section
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
+        ('Profile Picture', {'fields': ('user_profile_picture',)}), 
     )
 
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2'),
+            'fields': ('username', 'email','password1', 'password2'),
         }),
     )
 

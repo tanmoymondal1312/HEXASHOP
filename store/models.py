@@ -39,3 +39,11 @@ class Product(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     color = models.CharField(max_length=20, choices= COLOR_CHOICES, blank=True)
+    
+    discount = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    after_discount = models.IntegerField()
+    
+    def save(self, *args, **kwargs):
+        # Calculate after_discount before saving
+        self.after_discount = self.price - self.discount
+        super(Product, self).save(*args, **kwargs)

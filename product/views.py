@@ -22,6 +22,8 @@ def product_detail(request, product_id):
         average_rating = round(sum(rating.rating for rating in ratings) / total_ratings, 1)
     else:
         average_rating = 0.0
+        
+        
     
     return render(request, 'product_detail.html', {'product': product, 
                                                    'average_rating': average_rating,

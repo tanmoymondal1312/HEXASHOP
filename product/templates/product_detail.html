@@ -73,8 +73,8 @@
                 <!-- Display existing reviews here -->
                 {% for comment in comments %}
                     <div style=" width:500px; padding:10px; margin:10px 0px; border:1px solid #c5c7c9; border-radius:5px ;" class="" >
-                        <h5 class="card-title">{{ comment.user.username }}</h5>
-                        <p class="card-text">{{ comment.comment }}</p>
+                        <h5 class="card-text">{{ comment.user.username }}</h5>
+                        <p class="card-title">{{ comment.comment }}</p>
                     </div>
                 {% empty %}
                 <p>No reviews yet.</p>
@@ -82,6 +82,121 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+    <!-- Experimental code -->
+
+    <div class="container productdetailsmargin">
+        <!-- <div class="flex mobileflex"> -->
+        <div class="row">
+            <div class="col-sm" style="flex-basis: 60%;">
+                <div style="padding: 0px 10px; position: relative;">
+                    <img style="padding: 0px auto; margin: 0px auto;" class="img-fluid img " src="{{ product.image.url }}" alt="fruit">
+                    <p style="margin: 2px; height: 60px; width: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; position: absolute; top: 20px; right: 20px; font-weight: 600; background-color: orange; padding:10px ;">-40%</p>
+                </div>
+                <div style="padding: 0px 10px; margin: 0px auto;" class="flex">
+                    <!-- Mapping photos -->
+                    <div style="margin: 2px;">
+                        <!-- <img onclick="setShowImg(photo)" style="background-color: photo === showImg ? 'GreenYellow' : ''; padding: 10px; margin: 0px auto; max-height: 150px; width: auto; border: 1px solid gray; border-radius: 5px;" class="" src="{photo}" alt="fruit"> -->
+                        <img style=" padding: 10px; margin: 0px auto; max-height: 150px; width: auto; border: 1px solid gray; border-radius: 5px;" class="" src="{{ product.image.url }}" alt="fruit">
+                    </div>
+                    <!-- End of mapping photos -->
+                </div>
+            </div>
+            <div class="col-sm" style="flex-basis: 40%;">
+                <div style="margin: 20px;">
+                    <p>Fresh Fruits</p>
+                    <h1 style="font-size: 50px; font-weight: 600;">{{ product.product_name }}</h1>
+                    <div style="display: flex; align-items: center;">
+                        <div style="margin: 0 10px;">
+                            <span style="padding: 0 3px; color: gray" class="fa fa-star checked"></span>
+                            <span style="padding: 0 3px; color: gray" class="fa fa-star checked"></span>
+                            <span style="padding: 0 3px; color: gray" class="fa fa-star checked"></span>
+                            <span style="padding: 0 3px; color: gray" class="fa fa-star"></span>
+                            <span style="padding: 0 3px; color: gray" class="fa fa-star"></span>
+                        </div>
+                        <div>
+                            <p>{{ average_rating }} Ratting</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: start;">
+                        <div style="margin: 0 10px;">
+                            <p style="font-size: 20px; color: gray; text-decoration: line-through;">{{ product.price }}</p>
+                        </div>
+                        <div>
+                            <span style="font-size: 36px; color: red; font-weight: 500;">{{ product.price }}</span>
+                            <span style="font-size: 16px; color: gray;"> /per kg</span>
+                        </div>
+                    </div>
+                    <p>
+                        <span>Category: </span>
+                        <span>Fruit</span>
+                    </p>
+                    <p>
+                        <span>Product ID: </span>
+                        <span>FrBan10</span>
+                    </p>
+                    <div style="display: flex; align-items: center; margin: 10px;">
+                        <div style="color: black; font-weight: 600; white-space: nowrap;">SIZE :</div>
+                        <div style="padding: 0px 10px;" class="flex">
+                            <!-- Mapping sizes -->
+                            <div style="margin: 4px;">
+                                <!-- <h3 onclick="setSelectdedSize(size)" style="border: size === selectdedSize ? ' 2px solid orange' : '1px solid gray'; padding: 10px; border-radius: 5px; margin: 0px auto;" class="">size</h3> -->
+                                <h3 style="border: 1px solid gray; padding: 10px; border-radius: 5px; margin: 0px auto;" class="">size</h3>
+                            </div>
+                            <!-- End of mapping sizes -->
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 10px;">
+                        <div style="color: black; font-weight: 600; white-space: nowrap;">Quantity :</div>
+                        <div style="padding: 0px 20px; align-items: center;" class="flex">
+                            <div style="margin: 4px;">
+                                <button disabled="{count < 2 ? 'true' : 'false'}" onclick="setCount(count - 1)" style="color: black; border: 1px solid gray; border-radius: 20%; padding: 0 13px; margin: 0px auto;" class="">-</button>
+                            </div>
+                            <div style="margin: 4px;">
+                                <h3 style="border: 2px dashed gray; padding: 10px 30px; margin: 0px auto;" class="">count</h3>
+                            </div>
+                            <div style="margin: 4px;">
+                                <button onclick="setCount(count + 1)" style="color: black; border: 1px solid gray; border-radius: 20%; padding: 0 11px; margin: 0px auto;" class="">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="max-width: 220px; margin-top: 60px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin: 10px auto;">
+                            <button style="color: white; background-color: orange; font-weight: 500; border-radius: 5px; padding: 0 20px; margin-right: 5px; width: 100%; display: inline-flex; align-items: center;" class="">
+                                <h2>X</h2>
+                                <p style="color: black; padding: 5px;"></p>
+                                ADD TO CART
+                            </button>
+                            <button style="color: White; background-color: deeppink; font-weight: 700; border: ''; border-radius: 5px; padding: 4px; margin: 0; display: inline-flex; align-items: center; font-size: 25px;" class="">
+                                <h2>X</h2>
+                                <p></p>
+                            </button>
+                        </div>
+                        <div style="display: flex; align-items: center; margin: 10px auto;">
+                            <button style="color: black; background-color: lawngreen; font-weight: 700; border-radius: 5px; width: 100%; margin: 0px; display: block; align-items: center; text-align: center;" class="">
+                                BUY NOW
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Experimental code -->
+
+
+
+
+
+
 
     <!-- Add Bootstrap JS and jQuery scripts here -->
 

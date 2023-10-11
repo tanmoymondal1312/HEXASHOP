@@ -21,12 +21,14 @@ class ProductForm(forms.ModelForm):
             'slug',
             'description',
             'price',
+            'discount',
             'image',
             'stock',
             'is_available',
             'sizes',
             'color',
             'category',
+            
         ]
 
     # Add any additional form field customizations or validation here
@@ -36,6 +38,13 @@ class ProductForm(forms.ModelForm):
         if price <= 0:
             raise forms.ValidationError("Price must be greater than zero.")
         return price
+    
+    def clean_discount(self):
+        # Example: Set discount to 0 if not provided
+        discount = self.cleaned_data.get('discount')
+        if discount is None:
+            discount = 0
+        return discount
 
 
 
